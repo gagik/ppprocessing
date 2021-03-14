@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "antlr4-runtime.h"
-#include "libs/SceneLexer.h"
-#include "libs/SceneParser.h"
+#include "libs/ProcessingLexer.h"
+#include "libs/ProcessingParser.h"
 #include "ImageVisitor.h"
 
 using namespace std;
@@ -10,16 +10,17 @@ using namespace antlr4;
 
 int main(int argc, const char* argv[]) {
     std::ifstream stream;
-    stream.open("input.scene");
+    stream.open("input.pde");
     
     ANTLRInputStream input(stream);
-    SceneLexer lexer(&input);
+    ProcessingLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
-    SceneParser parser(&tokens);    
+    ProcessingParser parser(&tokens);    
     
-    SceneParser::FileContext* tree = parser.file();
+    ProcessingParser::SketchContext* tree = parser.sketch();
 
     ImageVisitor visitor;
+    cout << "Started\n";
     Scene scene = visitor.visitFile(tree);
     scene.draw();	
 

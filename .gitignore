@@ -367,16 +367,20 @@ CTestTestfile.cmake
 
 # Project-specific
 build/
+antlr4-runtime/Processing*
+antlr4-runtime/Java*
 antlr4-runtime/Scene*
-libs/Scene.interp
-libs/Scene.tokens
-libs/SceneBaseVisitor.cpp
-libs/SceneBaseVisitor.h
-libs/SceneLexer.cpp
-libs/SceneLexer.h
-libs/SceneLexer.interp
-libs/SceneLexer.tokens
-libs/SceneParser.cpp
-libs/SceneParser.h
-libs/SceneVisitor.cpp
-libs/SceneVisitor.h
+libs/*.interp
+libs/*.tokens
+libs/*Visitor.cpp
+libs/*Visitor.h
+libs/*Lexer.cpp
+libs/*Lexer.h
+libs/*Lexer.interp
+libs/*Lexer.tokens
+libs/*Parser.cpp
+libs/*Parser.h
+libs/*Visitor.cpp
+libs/*Visitor.h
+
+.antlr
