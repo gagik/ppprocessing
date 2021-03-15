@@ -4,6 +4,8 @@
 #include "libs/ProcessingLexer.h"
 #include "libs/ProcessingParser.h"
 #include "ImageVisitor.h"
+// #include "ofMain.h"
+// #include "ofApp.h"
 
 using namespace std;
 using namespace antlr4;
@@ -11,6 +13,7 @@ using namespace antlr4;
 int main(int argc, const char* argv[]) {
     std::ifstream stream;
     stream.open("input.pde");
+    ofEndShape(true);
     
     ANTLRInputStream input(stream);
     ProcessingLexer lexer(&input);

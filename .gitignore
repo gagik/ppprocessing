@@ -383,4 +383,8 @@ libs/*Parser.h
 libs/*Visitor.cpp
 libs/*Visitor.h
 
+
+# openframeworks
+libs/of
+
 .antlr

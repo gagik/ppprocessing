@@ -13,12 +13,14 @@ HEX_COLOR_LITERAL
 	;
 
 CIRCLE: 'circle';
-
+RECTANGLE: 'square';
+COLOR: 'color';
 // catch floating point numbers in a parser rule
 DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
 
 SIZE_FUNCTION: 'size';
 COLOR_FUNCTION: 'color';
+FILL_FUNCTION: 'fill';
 
 // copy from Java.g4 where is is just a fragment
 HEX_FLOAT_LITERAL:  '0' [xX] (HexDigits '.'? | HexDigits? '.' HexDigits) [pP] [+-]? Digits [fFdD]?;

@@ -27,7 +27,7 @@ antlrcpp::Any ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ct
 		action = Draw;
 		ProcessingParser::ApiDrawContext* draw = ctx -> apiDraw();
 		Shape shape = visitShape(ctx-> apiDraw()->drawShape());
-		cout << "stuff:";
+		// cout << "stuff:";
 		cout << draw->position(0)->getText();
 		return Element(action, "big", "red", draw->position(0)->getText(), draw->position(1)->getText(), shape);
 	}

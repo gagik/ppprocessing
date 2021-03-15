@@ -91,14 +91,19 @@ expression
 apiFunction
     :   apiDraw
     |   apiSize
+    |   apiFill
     ;
 apiDraw
     : drawShape '(' position ',' position ')'
+    ;
+apiFill
+    : FILL_FUNCTION '(' colorLiteral ')'
     ;
 position: STRING_LITERAL;
 
 drawShape
     : CIRCLE
+    | RECTANGLE
 ;
 
 apiSize
@@ -113,7 +118,7 @@ functionWithPrimitiveTypeName
 		|	'char'
 		|	'float'
 		|	'int'
-        |   'color'
+        |   COLOR
 		) '(' expressionList ')'
 	;
 
@@ -124,7 +129,7 @@ primitiveType
 	;
 
 colorPrimitiveType
-    :   'color'
+    :   COLOR
     ;
 
 // original Java.g4 primitiveType
@@ -141,7 +146,7 @@ javaPrimitiveType
 
 // added HexColorLiteral
 literal
-    :   hexColorLiteral
+    :   colorLiteral
     |	integerLiteral
     |	floatLiteral
     |   CHAR_LITERAL
@@ -150,9 +155,23 @@ literal
     |   'null'
     ;
 
+colorLiteral
+    :   HEX_COLOR_LITERAL
+    |   singleColorLiteral
+    |   rgbColorLiteral
+    ;
+
+singleColorLiteral
+    :   integerLiteral
+    ;
+
+rgbColorLiteral
+    :   integerLiteral ',' integerLiteral ',' integerLiteral
+    ;
+
 // As parser rule so this produces a separate listener
 // for us to alter its value.
-hexColorLiteral
-	:   HEX_COLOR_LITERAL	
-	;
+// hexColorLiteral
+// 	:   HEX_COLOR_LITERAL	
+// 	;
 
