@@ -3,34 +3,48 @@
 using namespace std;
 
 // we create a draw shape element
-Element::Element(Action action, string size, string color, string x, string y, Shape shape) {    
+// Element::Element(Action action, string size, string color, string x, string y, Shape shape) {    
+//     _action = action;
+//     _color = convertColor(color);
+//     _size = convertSize(size);
+//     _shape = shape;
+//     _text = "";
+//     setPosition(x, y);    
+// };
+
+Element::Element(Action action, vector<int> args) {    
     _action = action;
-    _color = convertColor(color);
-    _size = convertSize(size);
-    _shape = shape;
-    _text = "";
-    setPosition(x, y);    
+    arguments = args;
+    // _color = convertColor(color);
+    // _size = convertSize(size);
+    // _shape = shape;
+    // _text = "";
+    // setPosition(x, y);    
 };
+
+vector<int> Element::getArguments() {
+    return arguments;
+}
 
 // we create a write text eleement
-Element::Element(Action action, string size, string color, string x, string y, string text) {
-	_action = action;
-	_color = convertColor(color);
-	_size = convertSize(size);
-	_shape = NoShape;
-	_text = text;
-	setPosition(x, y);
-};
+// Element::Element(Action action, string size, string color, string x, string y, string text) {
+// 	_action = action;
+// 	_color = convertColor(color);
+// 	_size = convertSize(size);
+// 	_shape = NoShape;
+// 	_text = text;
+// 	setPosition(x, y);
+// };
 
 // we create an invalid action
-Element::Element(Action action) {
-	_action = NoAction;
-	_color = Black;
-	_size = Small;
-	_shape = NoShape;
-	_text = "";
-	setPosition(0, 0);
-};
+// Element::Element(Action action) {
+// 	_action = NoAction;
+// 	_color = Black;
+// 	_size = Small;
+// 	_shape = NoShape;
+// 	_text = "";
+// 	setPosition(0, 0);
+// };
 
 Shape Element::convertShape(string shape) {
     if(shape == "circle") return Circle;
@@ -78,9 +92,7 @@ void Element::setPosition(string x, string y) {
     if(y == "bottom")   _y_position = Bottom;                    
 }
 
-Scene::Scene(string name, vector<Element> elements) {
-    _name = name;
-    _elements = elements;
+Scene::Scene() {
 };
 
 Action Element::getAction() {
@@ -118,6 +130,15 @@ int Scene::getSize(int sizeImg, Scene_Size size) {
         case Medium: return sizeImg * 50 / 100 ;
         case Small: return sizeImg * 20 / 100 ;
     }
+}
+
+void Scene::setSetup(vector<Element> elements) {
+    setupElements = elements;
+}
+
+
+vector<Element> Scene::getSetup() {
+    return setupElements;
 }
 
 int Scene::getX(int sizeImg, Scene_Size size, X_Position x, int length) {    
@@ -221,45 +242,45 @@ int Scene::getPosition(int sizeImg, int sizeElement, Y_Position y) {
     }
 }
 
-void Scene::draw() {
-	CImg<unsigned char> image(512,512,1,3,255);       
+// void Scene::draw() {
+// 	CImg<unsigned char> image(512,512,1,3,255);       
 
-    for (auto element : _elements) { 
-        unsigned char* el_color = getColor(element.getColor());        
-        Action action = element.getAction(); 
-        Shape shape = element.getShape();       
+//     for (auto element : _elements) { 
+//         unsigned char* el_color = getColor(element.getColor());        
+//         Action action = element.getAction(); 
+//         Shape shape = element.getShape();       
 	
-        if(action == Write) {            
-			int x = getX(512, element.getSize(), element.getX(), element.getText().length());
-			int y = getY(512, element.getSize(), element.getY());
-			CImgList<unsigned char> font = CImgList<unsigned char>::font(getSizeFont(element.getSize()), false);
-			// in CImg.h we have modified the last argument of this function
-			// because the VS Compiler complained about va_args
-			image.draw_text(x, y, element.getText().c_str(), el_color, 0, 1, font);
-        }
-        else if(action == Draw) {            
-            int size = getSize(512, element.getSize());
-            int x = getPosition(512, size, element.getX());
-            int y = getPosition(512, size, element.getY());
-            switch(shape) {
-                case Square:
-                    image.draw_rectangle(x, y, x + size, y + size, el_color, 1);
-                    break;
-                case Circle:
-                    image.draw_circle(x + (size / 2), y + (size / 2), size / 2, el_color, 1);
-                    break;
-                default:
-                    break;
-            }            
-        }
+//         if(action == Write) {            
+// 			int x = getX(512, element.getSize(), element.getX(), element.getText().length());
+// 			int y = getY(512, element.getSize(), element.getY());
+// 			CImgList<unsigned char> font = CImgList<unsigned char>::font(getSizeFont(element.getSize()), false);
+// 			// in CImg.h we have modified the last argument of this function
+// 			// because the VS Compiler complained about va_args
+// 			image.draw_text(x, y, element.getText().c_str(), el_color, 0, 1, font);
+//         }
+//         else if(action == Draw) {            
+//             int size = getSize(512, element.getSize());
+//             int x = getPosition(512, size, element.getX());
+//             int y = getPosition(512, size, element.getY());
+//             switch(shape) {
+//                 case Square:
+//                     image.draw_rectangle(x, y, x + size, y + size, el_color, 1);
+//                     break;
+//                 case Circle:
+//                     image.draw_circle(x + (size / 2), y + (size / 2), size / 2, el_color, 1);
+//                     break;
+//                 default:
+//                     break;
+//             }            
+//         }
                         
-        delete el_color;
-    }        
+//         delete el_color;
+//     }        
 	
-    CImgDisplay main_disp(image, _name.c_str());
+//     CImgDisplay main_disp(image, _name.c_str());
 	
-    while (!main_disp.is_closed()) {
-        main_disp.wait();
-    }
-    image.save_bmp(_name.append(".bmp").c_str());    
-};
+//     while (!main_disp.is_closed()) {
+//         main_disp.wait();
+//     }
+//     image.save_bmp(_name.append(".bmp").c_str());    
+// };

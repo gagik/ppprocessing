@@ -382,6 +382,9 @@ libs/*Parser.cpp
 libs/*Parser.h
 libs/*Visitor.cpp
 libs/*Visitor.h
+libs/openFrameworks/*
+
+cmake/antlr4_runtime/*
 
 
 # openframeworks

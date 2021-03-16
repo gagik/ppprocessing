@@ -1,2 +1,3 @@
-circle("left", "bottom");
-square("left", "bottom");
+circle(120,120,150);
+circle(200,200,150);
+circle(200,120,150);

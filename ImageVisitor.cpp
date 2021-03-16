@@ -2,10 +2,10 @@
 
 using namespace std;
 
-antlrcpp::Any ImageVisitor::visitFile(ProcessingParser::SketchContext *ctx) {
+Scene* ImageVisitor::visitFile(ProcessingParser::SketchContext *ctx) {
     vector<Element> elements;
     ProcessingParser::StaticModeContext* sCtx = ctx->staticMode();
-	cout << sCtx->blockStatement().size();
+	cout << "Found " << sCtx->blockStatement().size() << " commands\n";
     for (auto blockStatement : sCtx->blockStatement()) {  
 		for (auto expression : blockStatement->statement()->expression()) {    
 			if (expression->apiFunction()) {
@@ -15,36 +15,30 @@ antlrcpp::Any ImageVisitor::visitFile(ProcessingParser::SketchContext *ctx) {
 		}
     }    
         	
-    antlrcpp::Any result = Scene("fun"/*ctx->name()->NAME()->getText()*/, elements);
+    Scene* result = new Scene();
+	result->setSetup(elements);
+
+	// antlrcpp::Any r = result;
     
 	return result;
 }
 
 antlrcpp::Any ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ctx) {
 	Action action;
+	vector<int> arguments;
 	
 	if (ctx -> apiDraw()) {
 		action = Draw;
 		ProcessingParser::ApiDrawContext* draw = ctx -> apiDraw();
 		Shape shape = visitShape(ctx-> apiDraw()->drawShape());
-		// cout << "stuff:";
-		cout << draw->position(0)->getText();
-		return Element(action, "big", "red", draw->position(0)->getText(), draw->position(1)->getText(), shape);
-	}
-	// if (ctx->DRAW()) {
-	// 	action = Draw;
-	// 	Shape shape = visitShape(ctx->shape());
-	// 	return Element(action, ctx->size()->getText(), ctx->color()->getText(), ctx->position()->x->getText(), ctx->position()->y->getText(), shape);
-	// }
-	// else if (ctx->WRITE()) {
-	// 	action = Write;
-	// 	string text = ctx->STRING()->getText().substr(1, ctx->STRING()->getText().length() - 2);
-	// 	return Element(action, ctx->size()->getText(), ctx->color()->getText(), ctx->position()->x->getText(), ctx->position()->y->getText(), text);
-	// }
-	// else
-	// 	action = NoAction;
+		arguments.push_back(stoi(draw->position(0)->getText()));
+		arguments.push_back(stoi(draw->position(1)->getText()));
+		arguments.push_back(stoi(draw->position(2)->getText()));
 
-	return Element(action);
+		return Element(action, arguments);
+	}
+
+	return Element(action, arguments);
 }
 
 antlrcpp::Any ImageVisitor::visitShape(ProcessingParser::DrawShapeContext *ctx) {

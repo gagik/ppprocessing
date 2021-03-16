@@ -1,3 +1,5 @@
+#ifndef SCENE_INCLUDED
+#define SCENE_INCLUDED
 #include <algorithm>
 #include <vector>
 #include <string>
@@ -15,9 +17,9 @@ enum Color { Black, Blue, Brown, Green, Red, Orange, Purple, Yellow, White };
 
 class Element {
     public:
-		Element(Action action, string size, string color, string x, string y, Shape shape);
-		Element(Action action, string size, string color, string x, string y, string text);
-		Element(Action action);
+		// Element(Action action, string size, string color, string x, string y, Shape shape);
+		Element(Action action, vector<int> arguments);
+		// Element(Action action);
         
         Action      getAction();
         Color       getColor();   
@@ -26,6 +28,7 @@ class Element {
         Scene_Size  getSize();
         string      getText();
         Shape       getShape();
+        vector<int> getArguments();
 
         static Shape convertShape(string shape);
     
@@ -37,20 +40,24 @@ class Element {
         Scene_Size  _size;   
         string      _text;
         Shape       _shape;
+        vector<int> arguments;
         
         Color convertColor(string color);
         Scene_Size convertSize(string size);
         void setPosition(string x, string y);
 };
 
-class  Scene {
+class Scene {
     public:
-        Scene(string name, vector<Element> elements);   
+        Scene();   
         void draw();
+        void setSetup (vector<Element> elements);
+        vector<Element> getSetup();
 
     private:
-        string              _name;
-        vector<Element>     _elements;
+        string              name;
+        vector<Element>     drawElements;
+        vector<Element>     setupElements;
         
         static const int    FONT_BIG = 53;
         static const int    FONT_MEDIUM = 23;
@@ -65,3 +72,4 @@ class  Scene {
         unsigned char* getColor(Color color);
 };
 
+#endif

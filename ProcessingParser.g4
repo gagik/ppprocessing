@@ -94,12 +94,12 @@ apiFunction
     |   apiFill
     ;
 apiDraw
-    : drawShape '(' position ',' position ')'
+    : drawShape '(' position ',' position ',' position ')'
     ;
 apiFill
     : FILL_FUNCTION '(' colorLiteral ')'
     ;
-position: STRING_LITERAL;
+position: DECIMAL_LITERAL;
 
 drawShape
     : CIRCLE
@@ -129,7 +129,7 @@ primitiveType
 	;
 
 colorPrimitiveType
-    :   COLOR
+    :   COLOR_FUNCTION
     ;
 
 // original Java.g4 primitiveType
