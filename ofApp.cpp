@@ -3,8 +3,27 @@
 //--------------------------------------------------------------
 
 void ofApp::setup(){
+    ifstream stream;
+    stream.open("input.pde");
+    
+    ANTLRInputStream input(stream);
+    ProcessingLexer lexer(&input);
+    CommonTokenStream tokens(&lexer);
+    ProcessingParser parser(&tokens);    
+    
+    ProcessingParser::SketchContext* tree = parser.sketch();
+    scene = visitor.visitFile(tree);
+
     ofSetFrameRate(60);
     ofBackground(255);
+
+    struct stat file_stat;
+    int err = stat("input.pde", &file_stat);
+    if (err != 0) {
+        cout << err;
+        return;
+    }
+    mTime = file_stat.st_mtime;
 }
 
 //--------------------------------------------------------------
@@ -14,6 +33,32 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    struct stat file_stat;
+    int err = stat("input.pde", &file_stat);
+    if (err != 0) {
+        cout << err;
+        return;
+    }
+    if (file_stat.st_mtime > mTime) {
+        ifstream stream;
+        // if (!shouldSwitch) {
+        stream.open("input.pde");
+        // } else {
+        //     stream.open("another.pde");
+        // }
+        // shouldSwitch = !shouldSwitch;
+
+        ANTLRInputStream input(stream);
+        ProcessingLexer lexer(&input);
+        CommonTokenStream tokens(&lexer);
+        ProcessingParser parser(&tokens);    
+        
+        ProcessingParser::SketchContext* tree = parser.sketch();
+        scene = visitor.visitFile(tree);
+        stream.close();
+    }
+    mTime = file_stat.st_mtime;
+
     ofSetColor(ofColor::black);
     for (auto element : scene->getSetup()) {
         if (element.getAction() == Action::Draw) {
@@ -24,6 +69,9 @@ void ofApp::draw(){
            }
            else if (shape.compare("ellipse") == 0) {
                ofDrawEllipse(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)));
+           }
+            else if (shape.compare("rect") == 0) {
+               ofDrawRectangle(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)));
            }
            else {
                break;
@@ -37,7 +85,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    // shouldSwitch = true;
 }
 
 //--------------------------------------------------------------

@@ -14,7 +14,7 @@ HEX_COLOR_LITERAL
 
 CIRCLE: 'circle';
 ELLIPSE: 'ellipse';
-RECTANGLE: 'square';
+RECT: 'rect';
 // catch floating point numbers in a parser rule
 DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
 

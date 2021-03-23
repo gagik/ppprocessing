@@ -448,11 +448,12 @@ antlr_target(ProcessingGrammarParser  ProcessingParser.g4 PARSER
              DEPENDS_ANTLR ProcessingGrammarLexer 
              COMPILE_FLAGS -lib ${PROJECT_SOURCE_DIR}/libs/
              OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/)
-# antlr_target(ProcessingGrammarParser Scene.g4 VISITOR OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/)
-
+             
 # add our project source directories
 include_directories(${PROJECT_SOURCE_DIR}
 					 ${PROJECT_SOURCE_DIR}/libs/
+           /usr/include/libfswatch/c++
+           /usr/include/libfswatch/c
   )
   
 
@@ -463,12 +464,12 @@ add_executable(prosecco antlr.cpp Scene.cpp ImageVisitor.cpp ofApp.cpp
 #               ${ANTLR_SceneGrammarParser_CXX_OUTPUTS})
 
 # link required libraries
-target_link_libraries(prosecco openFrameworks antlr4_static ${SYSTEM_LIBS} )
+target_link_libraries(prosecco openFrameworks antlr4_static ${SYSTEM_LIBS})
 
 # copy the input file next to the generated executable
 add_custom_command(TARGET prosecco POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-  "${PROJECT_SOURCE_DIR}/input.pde"
+  "${PROJECT_SOURCE_DIR}/*.pde"
   $<TARGET_FILE_DIR:prosecco>)
 
 # necessary because the default working directory of Visual Studio
@@ -479,7 +480,7 @@ add_custom_command(TARGET prosecco POST_BUILD
 if (WIN32)
 add_custom_command(TARGET prosecco POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-  "${PROJECT_SOURCE_DIR}/input.pde"
+  "${PROJECT_SOURCE_DIR}/*.pde"
   $<TARGET_FILE_DIR:prosecco>/../)
 endif()
 

@@ -1,6 +1,12 @@
 #include "ofMain.h"
 #include "Scene.h"
 #include "antlr4-runtime.h"
+#include "libs/ProcessingLexer.h"
+#include "libs/ProcessingParser.h"
+#include "ImageVisitor.h"
+
+using namespace antlr4;
+using namespace std;
 
 class ofApp : public ofBaseApp{
 
@@ -22,4 +28,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
 		Scene* scene;
+		ImageVisitor visitor;
+		bool shouldSwitch;
+		time_t mTime;
 };

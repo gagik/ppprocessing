@@ -94,9 +94,18 @@ apiFunction
     |   apiFill
     ;
 apiDraw
-    : CIRCLE '(' position ',' position ',' position ')'
-    | ELLIPSE '(' position ',' position ',' position ',' position ')'
+    : circleFunction
+    | drawFourDecimal
     ;
+
+
+circleFunction : CIRCLE '(' position ',' position ',' position ')';
+drawFourDecimal : drawFourDecimalShape '(' position ',' position ',' position ',' position ')';
+
+// draw functions which take 4 decimal arguments
+drawFourDecimalShape: RECT
+                    | ELLIPSE;  
+
 apiFill
     : FILL_FUNCTION '(' colorLiteral ')'
     ;
@@ -104,7 +113,7 @@ position: DECIMAL_LITERAL;
 
 drawShape
     : CIRCLE
-    | RECTANGLE
+    | RECT
     | ELLIPSE
 ;
 
