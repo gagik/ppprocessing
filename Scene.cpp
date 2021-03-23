@@ -12,7 +12,7 @@ using namespace std;
 //     setPosition(x, y);    
 // };
 
-Element::Element(Action action, vector<int> args) {    
+Element::Element(Action action, vector<string> args) {    
     _action = action;
     arguments = args;
     // _color = convertColor(color);
@@ -22,7 +22,7 @@ Element::Element(Action action, vector<int> args) {
     // setPosition(x, y);    
 };
 
-vector<int> Element::getArguments() {
+vector<string> Element::getArguments() {
     return arguments;
 }
 

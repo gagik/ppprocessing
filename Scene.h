@@ -8,7 +8,11 @@
 using namespace std;
 using namespace cimg_library;
 
-enum Action { Draw, Write, NoAction };
+enum Action { 
+    Draw, 
+    Write, 
+    NoAction 
+};
 enum Shape { Circle, Square, NoShape }; 
 enum Scene_Size { Big, Medium, Small }; 
 enum X_Position { Left, X_Center, Right };  
@@ -17,8 +21,8 @@ enum Color { Black, Blue, Brown, Green, Red, Orange, Purple, Yellow, White };
 
 class Element {
     public:
-		// Element(Action action, string size, string color, string x, string y, Shape shape);
-		Element(Action action, vector<int> arguments);
+		// Element(Action action, string size, string color, string x, string y, Shape shape);template<class T>
+		Element(Action action, vector<string> arguments);
 		// Element(Action action);
         
         Action      getAction();
@@ -28,7 +32,7 @@ class Element {
         Scene_Size  getSize();
         string      getText();
         Shape       getShape();
-        vector<int> getArguments();
+        vector<string> getArguments();
 
         static Shape convertShape(string shape);
     
@@ -40,7 +44,7 @@ class Element {
         Scene_Size  _size;   
         string      _text;
         Shape       _shape;
-        vector<int> arguments;
+        vector<string> arguments;
         
         Color convertColor(string color);
         Scene_Size convertSize(string size);

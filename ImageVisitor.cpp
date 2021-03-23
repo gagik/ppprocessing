@@ -25,15 +25,25 @@ Scene* ImageVisitor::visitFile(ProcessingParser::SketchContext *ctx) {
 
 antlrcpp::Any ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ctx) {
 	Action action;
-	vector<int> arguments;
+	vector<string> arguments;
 	
 	if (ctx -> apiDraw()) {
 		action = Draw;
 		ProcessingParser::ApiDrawContext* draw = ctx -> apiDraw();
-		Shape shape = visitShape(ctx-> apiDraw()->drawShape());
-		arguments.push_back(stoi(draw->position(0)->getText()));
-		arguments.push_back(stoi(draw->position(1)->getText()));
-		arguments.push_back(stoi(draw->position(2)->getText()));
+		// string shape = visitShape(ctx-> apiDraw()->drawShape());
+		// arguments.push_back(shape);
+		if (draw -> CIRCLE()) {
+			arguments.push_back("circle");
+			arguments.push_back(draw->position(0)->getText());
+			arguments.push_back(draw->position(1)->getText());
+			arguments.push_back(draw->position(2)->getText());
+		} else if (draw -> ELLIPSE()) {
+			arguments.push_back("ellipse");
+			arguments.push_back(draw->position(0)->getText());
+			arguments.push_back(draw->position(1)->getText());
+			arguments.push_back(draw->position(2)->getText());
+			arguments.push_back(draw->position(3)->getText());
+		}
 
 		return Element(action, arguments);
 	}
@@ -42,5 +52,5 @@ antlrcpp::Any ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ct
 }
 
 antlrcpp::Any ImageVisitor::visitShape(ProcessingParser::DrawShapeContext *ctx) {
-	return Element::convertShape(ctx->getText());
+	return ctx->getText();
 }

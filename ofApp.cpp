@@ -17,9 +17,17 @@ void ofApp::draw(){
     ofSetColor(ofColor::black);
     for (auto element : scene->getSetup()) {
         if (element.getAction() == Action::Draw) {
-           vector<int> args = element.getArguments();
-        //    cout<<"drew circle at:"<<args.at(0)<<" "<<args.at(1)<<" "<<args.at(2);
-           ofDrawCircle(args.at(0),args.at(1), args.at(2));
+           vector<string> args = element.getArguments();
+           string shape = args.at(0);
+           if (shape.compare("circle") == 0) {
+               ofDrawCircle(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)));
+           }
+           else if (shape.compare("ellipse") == 0) {
+               ofDrawEllipse(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)));
+           }
+           else {
+               break;
+           }
         } else {
             cout<<element.getAction();
         }

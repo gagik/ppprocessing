@@ -94,7 +94,8 @@ apiFunction
     |   apiFill
     ;
 apiDraw
-    : drawShape '(' position ',' position ',' position ')'
+    : CIRCLE '(' position ',' position ',' position ')'
+    | ELLIPSE '(' position ',' position ',' position ',' position ')'
     ;
 apiFill
     : FILL_FUNCTION '(' colorLiteral ')'
@@ -104,6 +105,7 @@ position: DECIMAL_LITERAL;
 drawShape
     : CIRCLE
     | RECTANGLE
+    | ELLIPSE
 ;
 
 apiSize
