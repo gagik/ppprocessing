@@ -63,21 +63,28 @@ void ofApp::draw(){
     for (auto element : scene->getSetup()) {
         if (element.getAction() == Action::Draw) {
            vector<string> args = element.getArguments();
-           string shape = args.at(0);
-           if (shape.compare("circle") == 0) {
+           string shapeFunction = args.at(0);
+           if (shapeFunction.compare("circle") == 0) {
                ofDrawCircle(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)));
            }
-           else if (shape.compare("ellipse") == 0) {
+           else if (shapeFunction.compare("ellipse") == 0) {
                ofDrawEllipse(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)));
            }
-            else if (shape.compare("rect") == 0) {
+            else if (shapeFunction.compare("rect") == 0) {
                ofDrawRectangle(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)));
            }
            else {
                break;
            }
+        } else if (element.getAction() == Action::Color) {
+           vector<string> args = element.getArguments();
+           string colorFunction = args.at(0);
+           if (colorFunction.compare("fill") == 0) {
+                ofSetHexColor(stoi(args.at(1), 0, 16));
+                ofFill();
+           }
         } else {
-            cout<<element.getAction();
+            cout<<"fake"<<element.getAction();
         }
     }
     // ofDrawCircle(1500,1500,100);

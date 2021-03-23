@@ -44,19 +44,30 @@ antlrcpp::Any ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ct
 			arguments.push_back(ellipse->position(1)->getText());
 			arguments.push_back(ellipse->position(2)->getText());
 			arguments.push_back(ellipse->position(3)->getText());
-		} // else if (draw -> ELLIPSE()) {
-		// 	arguments.push_back("ellipse");
-		// 	arguments.push_back(draw->position(0)->getText());
-		// 	arguments.push_back(draw->position(1)->getText());
-		// 	arguments.push_back(draw->position(2)->getText());
-		// 	arguments.push_back(draw->position(3)->getText());
-		// }
+		}
 
 		return Element(action, arguments);
-	}
+	} else if (ctx -> apiColor()) {
+		action = Color;
+		ProcessingParser::ApiColorContext* draw = ctx -> apiColor();
+		// cout<<"Color function"<<draw->colorFunction()->getText();
+		arguments.push_back(draw->colorFunction()->getText());
+		arguments.push_back(visitColor(draw -> colorLiteral()));
 
+		return Element(action, arguments);
+	} else {
+		cout<<"neither functions satisfied";
+	}
 	return Element(action, arguments);
 }
+
+string ImageVisitor::visitColor(ProcessingParser::ColorLiteralContext *ctx) {
+	if (ctx->hexColorLiteral()) {
+		return ctx->hexColorLiteral()->hexColorValue()->getText();
+	}
+	return "";
+}
+
 
 antlrcpp::Any ImageVisitor::visitShape(ProcessingParser::DrawShapeContext *ctx) {
 	return ctx->getText();

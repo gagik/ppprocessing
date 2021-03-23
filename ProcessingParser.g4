@@ -90,13 +90,18 @@ expression
 // catch special API function calls that we are interessted in
 apiFunction
     :   apiDraw
-    |   apiSize
-    |   apiFill
+    |   apiColor
     ;
 apiDraw
     : circleFunction
     | drawFourDecimal
     ;
+
+apiColor
+    :  colorFunction '(' colorLiteral ')'
+    ;
+
+colorFunction: (FILL | BACKGROUND | STROKE);
 
 
 circleFunction : CIRCLE '(' position ',' position ',' position ')';
@@ -105,10 +110,6 @@ drawFourDecimal : drawFourDecimalShape '(' position ',' position ',' position ',
 // draw functions which take 4 decimal arguments
 drawFourDecimalShape: RECT
                     | ELLIPSE;  
-
-apiFill
-    : FILL_FUNCTION '(' colorLiteral ')'
-    ;
 position: DECIMAL_LITERAL;
 
 drawShape
@@ -134,14 +135,8 @@ functionWithPrimitiveTypeName
 	;
 
 // adding support for "color" primitive
-primitiveType
-	:	colorPrimitiveType
-	|	javaPrimitiveType
+primitiveType:	javaPrimitiveType
 	;
-
-colorPrimitiveType
-    :   COLOR_FUNCTION
-    ;
 
 // original Java.g4 primitiveType
 javaPrimitiveType
@@ -167,10 +162,14 @@ literal
     ;
 
 colorLiteral
-    :   HEX_COLOR_LITERAL
+    :   hexColorLiteral
     |   singleColorLiteral
     |   rgbColorLiteral
     ;
+
+hexColorLiteral : '#' hexColorValue;
+
+hexColorValue: HEX_COLOR_VALUE;
 
 singleColorLiteral
     :   integerLiteral
