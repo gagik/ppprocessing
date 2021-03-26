@@ -22,7 +22,14 @@ void Scene::setSetup(vector<Element> elements) {
     setupElements = elements;
 }
 
+void Scene::setDraw(vector<Element> elements) {
+    drawElements = elements;
+}
+
 
 vector<Element> Scene::getSetup() {
     return setupElements;
+}
+vector<Element> Scene::getDraw() {
+    return drawElements;
 }

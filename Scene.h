@@ -53,7 +53,9 @@ class Scene {
         Scene();   
         void draw();
         void setSetup (vector<Element> elements);
+        void setDraw (vector<Element> elements);
         vector<Element> getSetup();
+        vector<Element> getDraw();
 
     private:
         string              name;

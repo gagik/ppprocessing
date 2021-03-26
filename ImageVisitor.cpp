@@ -2,24 +2,52 @@
 using namespace std;
 
 Scene* ImageVisitor::visitFile(ProcessingParser::SketchContext *ctx) {
-    vector<Element> elements;
-    ProcessingParser::StaticModeContext* sCtx = ctx->staticMode();
-	cout << "Found " << sCtx->blockStatement().size() << " commands\n";
-    for (auto blockStatement : sCtx->blockStatement()) {  
-		for (auto expression : blockStatement->statement()->expression()) {    
-			if (expression->apiFunction()) {
-				antlrcpp::Any el = visitAction(expression->apiFunction());
-				elements.push_back(el);		
+    vector<Element> drawElements;
+    vector<Element> setupElements;
+	if (ctx->activeMode()) {
+		for (auto classBody : ctx->activeMode()->classBodyDeclaration()) { 
+			if (classBody->memberDeclaration()) {
+				auto method = classBody->memberDeclaration()->methodDeclaration();
+				if (method) {
+					string methodName = method->IDENTIFIER()->getText();
+					ProcessingParser::BlockContext *methodBlock = method->methodBody()->block();
+					vector<Element> *elementsToAdd;
+					if (methodName.compare("setup") == 0) {
+						for (auto blockStatement : methodBlock->blockStatement()) {
+							visitBlockStatement(&setupElements, blockStatement);
+						}
+					} else if (methodName.compare("draw") == 0) {
+						for (auto blockStatement : methodBlock->blockStatement()) {
+							visitBlockStatement(&drawElements, blockStatement);
+						}
+					}
+				}
 			}
-		}
-    }    
+			// visitBlockStatement(&setupElements, blockStatement);
+			
+		} 
+	} else if (ctx->staticMode()) {
+		for (auto blockStatement : ctx->staticMode()->blockStatement()) {  
+			visitBlockStatement(&drawElements, blockStatement);
+		}   
+	}
 
     Scene* result = new Scene();
-	result->setSetup(elements);
+	result->setSetup(setupElements);
+	result->setDraw(drawElements);
 
 	// antlrcpp::Any r = result;
     
 	return result;
+}
+
+void ImageVisitor::visitBlockStatement(vector<Element> *elements, ProcessingParser::BlockStatementContext *blockStatement) {
+	for (auto expression : blockStatement->statement()->expression()) {  
+		if (expression->apiFunction()) {
+			antlrcpp::Any el = visitAction(expression->apiFunction());
+			elements->push_back(el);		
+		}
+	}
 }
 
 antlrcpp::Any ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ctx) {
@@ -50,7 +78,6 @@ antlrcpp::Any ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ct
 	} else if (ctx -> apiColor()) {
 		action = Color;
 		ProcessingParser::ApiColorContext* draw = ctx -> apiColor();
-		// cout<<"Color function"<<draw->colorFunction()->getText();
 		arguments.push_back(draw->colorFunction()->getText());
 		arguments.push_back(visitColor(draw -> colorLiteral()));
 

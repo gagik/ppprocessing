@@ -31,4 +31,8 @@ class ofApp : public ofBaseApp{
 		ImageVisitor visitor;
 		bool shouldSwitch;
 		time_t mTime;
+		int strokeColor;
+
+	private:
+		void updateFile();
 };
