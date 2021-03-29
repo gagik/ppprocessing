@@ -457,10 +457,10 @@ include_directories(${PROJECT_SOURCE_DIR}
   )
   
 
-add_executable(prosecco antlr.cpp Scene.cpp ImageVisitor.cpp ofApp.cpp           
+add_executable(prosecco antlr.cpp Sketch.cpp ImageVisitor.cpp ofApp.cpp           
                ${ANTLR_ProcessingGrammarParser_CXX_OUTPUTS} ${ANTLR_ProcessingGrammarLexer_CXX_OUTPUTS})
 
-#add_executable(prosecco antlr.cpp Scene.cpp ImageVisitor.cpp               
+#add_executable(prosecco antlr.cpp Sketch.cpp ImageVisitor.cpp               
 #               ${ANTLR_SceneGrammarParser_CXX_OUTPUTS})
 
 # link required libraries
