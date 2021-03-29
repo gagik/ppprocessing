@@ -16,6 +16,7 @@ HEX_START: '#';
 CIRCLE: 'circle';
 ELLIPSE: 'ellipse';
 RECT: 'rect';
+LINE: 'line';
 // catch floating point numbers in a parser rule
 DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
 

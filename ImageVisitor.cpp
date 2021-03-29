@@ -59,8 +59,7 @@ void ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ctx) {
 		}
 	} else if (ctx -> apiColor()) {
 		ProcessingParser::ApiColorContext* draw = ctx -> apiColor();
-		arguments.push_back(draw->colorFunction()->getText());
-		arguments.push_back(visitColor(draw -> colorLiteral()));
+		sketch->drawOne(draw->colorFunction()->getText(), visitColor(draw -> colorLiteral()));
 	} else {
 		cout<<"neither functions satisfied";
 	}

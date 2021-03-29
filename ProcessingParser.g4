@@ -109,7 +109,8 @@ drawFourDecimal : drawFourDecimalShape '(' position ',' position ',' position ',
 
 // draw functions which take 4 decimal arguments
 drawFourDecimalShape: RECT
-                    | ELLIPSE;  
+                    | ELLIPSE
+                    | LINE;  
 position: DECIMAL_LITERAL;
 
 drawShape
