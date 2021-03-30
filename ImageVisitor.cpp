@@ -32,6 +32,14 @@ void ImageVisitor::visitFile(ProcessingParser::SketchContext *ctx) {
 	}
 }
 
+string ImageVisitor::getPosition(ProcessingParser::PositionContext *pos) {
+	if(pos->DECIMAL_LITERAL()) {
+		return pos->getText();
+	} else {
+		return to_string(ofGetFrameNum());
+	}
+}
+
 void ImageVisitor::visitBlockStatement(ProcessingParser::BlockStatementContext *blockStatement) {
 	for (auto expression : blockStatement->statement()->expression()) {  
 		if (expression->apiFunction()) {
@@ -53,9 +61,9 @@ void ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ctx) {
 		} else if (draw -> drawFourDecimal()) {
 			auto four = draw -> drawFourDecimal();
 			string funcName = four->drawFourDecimalShape()->getText();
-			sketch->drawFour(funcName, four->position(0)->getText(), 
-			four->position(1)->getText(), four->position(2)->getText(),
-			four->position(3)->getText());
+			sketch->drawFour(funcName, getPosition(four->position(0)), 
+			getPosition(four->position(1)), getPosition(four->position(2)),
+			getPosition(four->position(3)));
 		}
 	} else if (ctx -> apiColor()) {
 		ProcessingParser::ApiColorContext* draw = ctx -> apiColor();

@@ -22,6 +22,10 @@ DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
 
 SIZE: 'size';
 
+
+// special variables
+FRAMECOUNT: 'frameCount';
+
 // color-related
 COLOR: 'color';
 FILL: 'fill';

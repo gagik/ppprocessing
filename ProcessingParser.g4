@@ -111,7 +111,8 @@ drawFourDecimal : drawFourDecimalShape '(' position ',' position ',' position ',
 drawFourDecimalShape: RECT
                     | ELLIPSE
                     | LINE;  
-position: DECIMAL_LITERAL;
+position: DECIMAL_LITERAL
+          | FRAMECOUNT;
 
 drawShape
     : CIRCLE
