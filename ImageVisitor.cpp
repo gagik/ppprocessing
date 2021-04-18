@@ -56,12 +56,21 @@ string ImageVisitor::getExpression(ProcessingParser::ExpressionContext *exp) {
 	} 
 	else if(exp->FRAMECOUNT()) {
 		return to_string(ofGetFrameNum());
+	} else if (exp->primary()->IDENTIFIER()) {
+		return memory[exp->getText()];
 	} else {
 		return exp->getText();
 	}
 }
 
 void ImageVisitor::visitBlockStatement(ProcessingParser::BlockStatementContext *blockStatement) {
+	if (blockStatement->localVariableDefinition()) {
+		string variableName = blockStatement->localVariableDefinition()->IDENTIFIER()->getText();
+		float value = stof(getExpression(blockStatement->localVariableDefinition()->expression()));
+		memory[variableName] = value;
+		return;
+	}
+	
 	for (auto expression : blockStatement->statement()->expression()) {  
 		if (expression->apiFunction()) {
 			visitAction(expression->apiFunction());

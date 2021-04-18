@@ -14,6 +14,18 @@ sketch
     |   activeMode
     ;
 
+blockStatement
+    : localVariableDefinition
+    | localVariableDeclaration ';'
+    | statement
+    | localTypeDeclaration
+    ;
+
+// simplified variable definition for the purpose
+// of float declarations only for now
+localVariableDefinition
+    : typeType IDENTIFIER '=' expression ';'
+    ;
 // static mode, will run once (no function definitions)
 staticMode
 	:	importDeclaration* blockStatement* importDeclaration* blockStatement* EOF

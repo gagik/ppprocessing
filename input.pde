@@ -1,5 +1,6 @@
 void setup()
 {
+    int i = 0;
     fill(#00FF00);
     stroke(#00FF00);
     ellipse(300,100,800,200);

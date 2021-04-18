@@ -53,48 +53,6 @@ void ofApp::draw(){
 
     ofSetColor(ofColor::black);
     updateFile();
-    // for (auto element : scene->getDraw()) {
-    //     if (element.getAction() == Action::Draw) {
-    //        vector<string> args = element.getArguments();
-    //        string shapeFunction = args.at(0);
-    //        if (shapeFunction.compare("circle") == 0) {
-    //            int x = stoi(args.at(1)), y = stoi(args.at(2)), r = stoi(args.at(3));
-    //            ofDrawCircle(x, y, r);
-    //            if(strokeColor != -1) {
-    //                ofNoFill();
-    //                ofDrawCircle(x, y, r);
-    //            }
-    //        } else if (shapeFunction.compare("ellipse") == 0) {
-    //             int x = stoi(args.at(1)), y = stoi(args.at(2)), w = stoi(args.at(3)), h = stoi(args.at(4));
-    //             ofDrawEllipse(x, y, w, h);
-    //             if(strokeColor != -1) {
-    //                ofNoFill();
-    //                ofDrawEllipse(x, y, w, h);
-    //             }
-    //        } else if (shapeFunction.compare("rect") == 0) {
-    //             int x = stoi(args.at(1)), y = stoi(args.at(2)), w = stoi(args.at(3)), h = stoi(args.at(4));
-    //             ofDrawRectangle(x, y, w, h);
-    //             if(strokeColor != -1) {
-    //                ofNoFill();
-    //                ofDrawRectangle(x, y, w, h);
-    //             }
-    //        }
-    //        else {
-    //            break;
-    //        }
-    //     } else if (element.getAction() == Action::Color) {
-    //        vector<string> args = element.getArguments();
-    //        string colorFunction = args.at(0);
-    //        if (colorFunction.compare("fill") == 0) {
-    //             ofSetHexColor(stoi(args.at(1), 0, 16));
-    //             ofFill();
-    //        } else if (colorFunction.compare("stroke") == 0) {
-    //             strokeColor = stoi(args.at(1), 0, 16);
-    //        }
-    //     } else {
-    //         cout<<"fake"<<element.getAction();
-    //     }
-    // }
 }
 
 //--------------------------------------------------------------
