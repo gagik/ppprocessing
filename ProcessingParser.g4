@@ -38,27 +38,28 @@ warnTypeAsVariableName
         }
     ;
 
-// add support for converter functions int(), float(), ..
-// Only the line with "functionWithPrimitiveTypeName" was added
-// at a location before any "type" is being matched
 expression
-    :   primary
+    :   FRAMECOUNT  
+    // |   additionOperation 
+    |   primary
+    |   expression (ADD|SUBTRACT|MUL|DIV) expression
     |   expression '.' Identifier
     |   expression '.' 'this'
     |   expression '.' 'new' nonWildcardTypeArguments? innerCreator
     |   expression '.' 'super' superSuffix
     |   expression '.' explicitGenericInvocation
     |   expression '[' expression ']'
+    |   mathFunction
     |   apiFunction
     |   expression '(' expressionList? ')'
     |   'new' creator
     |   functionWithPrimitiveTypeName
     |   '(' typeType ')' expression
     |   expression ('++' | '--')
-    |   ('+'|'-'|'++'|'--') expression
+    |   ('+'|SUBTRACT|'++'|'--') expression
     |   ('~'|'!') expression
     |   expression ('*'|'/'|'%') expression
-    |   expression ('+'|'-') expression
+    |   expression (ADD|SUBTRACT) expression
     |   expression ('<' '<' | '>' '>' '>' | '>' '>') expression
     |   expression ('<=' | '>=' | '>' | '<') expression
     |   expression 'instanceof' typeType
@@ -87,6 +88,14 @@ expression
         expression
     ;
 
+// additionOperation:
+//     expression (ADD | SUBTRACT) expression;
+
+mathFunction
+    :   mathSinCos
+;
+
+mathSinCos: (SIN | COS) '(' expression ')';
 // catch special API function calls that we are interessted in
 apiFunction
     :   apiDraw
@@ -104,8 +113,8 @@ apiColor
 colorFunction: (FILL | BACKGROUND | STROKE);
 
 
-circleFunction : CIRCLE '(' position ',' position ',' position ')';
-drawFourDecimal : drawFourDecimalShape '(' position ',' position ',' position ',' position ')';
+circleFunction : CIRCLE '(' expression ',' expression  ',' expression ')';
+drawFourDecimal : drawFourDecimalShape '(' expression  ',' expression ',' expression ',' expression ')';
 
 // draw functions which take 4 decimal arguments
 drawFourDecimalShape: RECT

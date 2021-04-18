@@ -22,7 +22,10 @@ DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
 
 SIZE: 'size';
 
-
+SUBTRACT: '-';
+ADD: '+';
+SIN: 'sin';
+COS: 'cos';
 // special variables
 FRAMECOUNT: 'frameCount';
 

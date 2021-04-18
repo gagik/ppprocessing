@@ -1,6 +1,5 @@
 #include "ImageVisitor.h"
 using namespace std;
-
 ImageVisitor::ImageVisitor() {
 	sketch = new Sketch("test", false);
 }
@@ -32,11 +31,33 @@ void ImageVisitor::visitFile(ProcessingParser::SketchContext *ctx) {
 	}
 }
 
-string ImageVisitor::getPosition(ProcessingParser::PositionContext *pos) {
-	if(pos->DECIMAL_LITERAL()) {
-		return pos->getText();
-	} else {
+string ImageVisitor::getExpression(ProcessingParser::ExpressionContext *exp) {
+	if(exp->mathFunction()) {
+		auto math = exp->mathFunction();
+		if (math->mathSinCos()) {
+			if (math->mathSinCos()->SIN()) {
+				return to_string(sin(stof(getExpression(math->mathSinCos()->expression()))));
+			} else {
+				return to_string(cos(stof(getExpression(math->mathSinCos()->expression()))));
+			}
+		}
+	}
+	else if(exp->MUL()) {
+		return to_string(stof(getExpression(exp->expression(0))) * stof(getExpression(exp->expression(1))));
+	}
+	else if(exp->DIV()) {
+		return to_string(stof(getExpression(exp->expression(0))) / stof(getExpression(exp->expression(1))));
+	}
+	else if(exp->SUBTRACT()) {
+		return to_string(stof(getExpression(exp->expression(0))) - stof(getExpression(exp->expression(1))));
+	}
+	else if(exp->ADD()) {
+		return to_string(stof(getExpression(exp->expression(0))) + stof(getExpression(exp->expression(1))));
+	} 
+	else if(exp->FRAMECOUNT()) {
 		return to_string(ofGetFrameNum());
+	} else {
+		return exp->getText();
 	}
 }
 
@@ -56,14 +77,14 @@ void ImageVisitor::visitAction(ProcessingParser::ApiFunctionContext *ctx) {
 		if (draw -> circleFunction()) {
 			auto three = draw -> circleFunction();
 			string funcName = "circle";
-			sketch->drawThree(funcName, three->position(0)->getText(), 
-			three->position(1)->getText(), three->position(2)->getText());
+			sketch->drawThree(funcName, three->expression(0)->getText(), 
+			three->expression(1)->getText(), three->expression(2)->getText());
 		} else if (draw -> drawFourDecimal()) {
 			auto four = draw -> drawFourDecimal();
 			string funcName = four->drawFourDecimalShape()->getText();
-			sketch->drawFour(funcName, getPosition(four->position(0)), 
-			getPosition(four->position(1)), getPosition(four->position(2)),
-			getPosition(four->position(3)));
+			sketch->drawFour(funcName, getExpression(four->expression(0)), 
+			getExpression(four->expression(1)), getExpression(four->expression(2)),
+			getExpression(four->expression(3)));
 		}
 	} else if (ctx -> apiColor()) {
 		ProcessingParser::ApiColorContext* draw = ctx -> apiColor();

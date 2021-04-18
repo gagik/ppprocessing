@@ -1,4 +1,5 @@
 #include <string>
+#include <cmath>
 #include "ofMain.h"
 #include "antlr4-runtime.h"
 #include "libs/SceneBaseVisitor.h"
@@ -12,7 +13,7 @@ public:
 	string visitColor(ProcessingParser::ColorLiteralContext *ctx);
 	void visitBlockStatement(ProcessingParser::BlockStatementContext *blockStatement);
 	void visitAction(ProcessingParser::ApiFunctionContext *ctx);		
-	string getPosition(ProcessingParser::PositionContext *pos);
+	string getExpression(ProcessingParser::ExpressionContext *pos);
 	antlrcpp::Any visitShape(ProcessingParser::DrawShapeContext *ctx);
 private:
 	Sketch *sketch;

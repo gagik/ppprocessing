@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 
 void ofApp::setup(){
+    srand (time(NULL));
     ofSetFrameRate(60);
     ofBackground(255);
     
