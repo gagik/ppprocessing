@@ -105,6 +105,7 @@ expression
 
 mathFunction
     :   mathSinCos
+    |   ABS_FUNC '(' expression ')'
 ;
 
 mathSinCos: (SIN | COS) '(' expression ')';

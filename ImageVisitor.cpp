@@ -40,6 +40,8 @@ string ImageVisitor::getExpression(ProcessingParser::ExpressionContext *exp) {
 			} else {
 				return to_string(cos(stof(getExpression(math->mathSinCos()->expression()))));
 			}
+		} else if(math->ABS_FUNC()) {
+			return to_string(abs(stof(getExpression(math->expression()))));
 		}
 	}
 	else if(exp->MUL()) {
@@ -66,8 +68,7 @@ string ImageVisitor::getExpression(ProcessingParser::ExpressionContext *exp) {
 void ImageVisitor::visitBlockStatement(ProcessingParser::BlockStatementContext *blockStatement) {
 	if (blockStatement->localVariableDefinition()) {
 		string variableName = blockStatement->localVariableDefinition()->IDENTIFIER()->getText();
-		float value = stof(getExpression(blockStatement->localVariableDefinition()->expression()));
-		memory[variableName] = value;
+		memory[variableName] = getExpression(blockStatement->localVariableDefinition()->expression());
 		return;
 	}
 	

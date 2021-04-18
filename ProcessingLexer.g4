@@ -21,7 +21,7 @@ LINE: 'line';
 DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
 
 SIZE: 'size';
-
+ABS_FUNC: 'abs';
 SUBTRACT: '-';
 ADD: '+';
 SIN: 'sin';

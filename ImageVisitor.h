@@ -17,6 +17,6 @@ public:
 	antlrcpp::Any visitShape(ProcessingParser::DrawShapeContext *ctx);
 private:
 	Sketch *sketch;
-	map<string, float> memory;
+	map<string, string> memory;
 };
 
